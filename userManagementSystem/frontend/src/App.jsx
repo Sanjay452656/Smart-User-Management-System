@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Dashboard from "./pages/Dashboard"
 import AdminPanel from "./pages/AdminPanel"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App(){
 
@@ -15,8 +16,22 @@ return(
 
 <Route path="/" element={<Login/>}/>
 <Route path="/register" element={<Register/>}/>
-<Route path="/dashboard" element={<Dashboard/>}/>
-<Route path="/admin" element={<AdminPanel/>}/>
+<Route 
+  path="/dashboard" 
+  element={
+    <ProtectedRoute>
+      <Dashboard/>
+    </ProtectedRoute>
+  }
+/>
+<Route 
+  path="/admin" 
+  element={
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AdminPanel/>
+    </ProtectedRoute>
+  }
+/>
 
 </Routes>
 

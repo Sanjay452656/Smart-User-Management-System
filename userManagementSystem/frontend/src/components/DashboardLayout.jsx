@@ -5,10 +5,11 @@ import { LayoutDashboard, Users, BarChart3, Settings, Bell, Search, Menu, X, Log
 export default function DashboardLayout({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const user = JSON.parse(localStorage.getItem("user") || "{}")
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { name: "Admin Panel", path: "/admin", icon: Users },
+    ...(user.role === "admin" ? [{ name: "Admin Panel", path: "/admin", icon: Users }] : []),
     { name: "Analytics", path: "#", icon: BarChart3 },
     { name: "Settings", path: "#", icon: Settings },
   ]
@@ -117,11 +118,11 @@ export default function DashboardLayout({ children }) {
             <div className="h-8 w-px bg-white/10 mx-2 hidden sm:block"></div>
             <div className="flex items-center space-x-3 cursor-pointer p-1.5 pr-3 rounded-full hover:bg-white/5 transition-colors">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center text-sm font-bold text-white shadow-md">
-                JD
+                {user.name ? user.name.charAt(0).toUpperCase() : "U"}
               </div>
               <div className="hidden sm:block text-sm">
-                <p className="font-medium text-slate-200">John Doe</p>
-                <p className="text-xs text-slate-500">Admin</p>
+                <p className="font-medium text-slate-200">{user.name || "User"}</p>
+                <p className="text-xs text-slate-500 capitalize">{user.role || "user"}</p>
               </div>
             </div>
           </div>
